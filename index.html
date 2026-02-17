@@ -3,233 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DevX - RIC Freelancer Web App</title>
+<title>DevX - RIC Freelancer Portal</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:#0f172a;color:white;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+}
 
 /* HEADER */
 .header{
-    background:linear-gradient(90deg,#0f172a,#1e293b);
-    padding:15px 40px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:2px solid #2563eb;
-    box-shadow:0 4px 6px rgba(0,0,0,0.3);
+background:linear-gradient(90deg,#0f172a,#1e293b);
+padding:15px 30px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:2px solid #2563eb;
 }
+
 .header-left{
-    display:flex;
-    align-items:center;
-    gap:15px;
+display:flex;
+align-items:center;
+gap:15px;
 }
-.header img{
-    height:55px;
-    border-radius:8px;
-    border:2px solid #38bdf8;
+
+.logo{
+height:55px;
+border-radius:8px;
+border:2px solid #38bdf8;
 }
+
 .header h1{
-    font-size:20px;
-    color:#38bdf8;
-    font-weight:600;
+font-size:18px;
+color:#38bdf8;
 }
 
 /* LAYOUT */
 .app{
-    display:flex;
-    min-height:90vh;
-}
-.sidebar{
-    width:250px;
-    background:#111827;
-    padding:25px 20px;
-    border-right:1px solid #2563eb;
-}
-.sidebar h2{
-    color:#38bdf8;
-    margin-bottom:25px;
-    font-size:18px;
-}
-.sidebar button{
-    width:100%;
-    padding:14px;
-    margin-bottom:12px;
-    background:#1f2937;
-    border:none;
-    color:white;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:500;
-    transition:0.3s;
-}
-.sidebar button:hover{
-    background:#2563eb;
-    transform:scale(1.03);
+display:flex;
+min-height:90vh;
 }
 
-/* MAIN */
+.sidebar{
+width:230px;
+background:#111827;
+padding:25px 20px;
+}
+
+.sidebar h2{
+margin-bottom:25px;
+color:#38bdf8;
+}
+
+.sidebar button{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+background:#1f2937;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.sidebar button:hover{
+background:#2563eb;
+}
+
 .main{
-    flex:1;
-    padding:30px;
+flex:1;
+padding:30px;
 }
 
 /* SEARCH */
 .topbar{
-    display:flex;
-    gap:12px;
-    margin-bottom:30px;
+display:flex;
+gap:10px;
+margin-bottom:25px;
+flex-wrap:wrap;
 }
-input, select, textarea{
-    padding:12px;
-    background:#1f2937;
-    border:1px solid #374151;
-    color:white;
-    border-radius:8px;
-    width:100%;
-    font-size:14px;
+
+input,select,textarea{
+padding:10px;
+background:#1f2937;
+border:1px solid #374151;
+color:white;
+border-radius:6px;
+width:100%;
 }
+
 button{
-    cursor:pointer;
-    transition:0.3s;
+cursor:pointer;
 }
 
 /* CARDS */
 .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
-    gap:22px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
 }
+
 .card{
-    background:#1e293b;
-    padding:22px;
-    border-radius:14px;
-    border:1px solid #334155;
-    transition:0.4s;
-    box-shadow:0 6px 15px rgba(0,0,0,0.4);
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+border:1px solid #334155;
+transition:0.3s;
 }
+
 .card:hover{
-    transform:translateY(-6px);
-    border-color:#38bdf8;
-    box-shadow:0 12px 25px rgba(0,0,0,0.6);
+transform:translateY(-5px);
+border-color:#38bdf8;
 }
+
 .card h3{
-    margin-bottom:8px;
-    color:#38bdf8;
+color:#38bdf8;
+margin-bottom:6px;
 }
-.card p{
-    font-size:14px;
-    margin-bottom:6px;
-}
+
 .price{
-    color:#16a34a;
-    font-weight:bold;
-    margin-top:10px;
-    font-size:15px;
+color:#22c55e;
+font-weight:bold;
+margin-top:8px;
 }
+
 .card button{
-    margin-top:15px;
-    padding:12px;
-    background:linear-gradient(90deg,#2563eb,#38bdf8);
-    border:none;
-    color:white;
-    border-radius:8px;
-    cursor:pointer;
-    width:100%;
-    font-weight:500;
-}
-.card button:hover{
-    transform:scale(1.05);
+margin-top:12px;
+padding:8px;
+background:#2563eb;
+border:none;
+border-radius:6px;
+color:white;
+width:100%;
 }
 
 /* MODAL */
 .modal{
-    display:none;
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.85);
-    justify-content:center;
-    align-items:center;
-    animation:fadeIn 0.3s ease;
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
 }
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
+
 .modal-content{
-    background:#1f2937;
-    padding:30px;
-    border-radius:14px;
-    width:400px;
-    max-height:90vh;
-    overflow:auto;
-    box-shadow:0 10px 25px rgba(0,0,0,0.6);
+background:#1f2937;
+padding:25px;
+border-radius:10px;
+width:350px;
 }
+
 .close{
-    float:right;
-    cursor:pointer;
-    color:red;
-    font-weight:bold;
-}
-.hire-form button{
-    margin-top:12px;
-    padding:12px;
-    background:#16a34a;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    width:100%;
-    font-weight:500;
-}
-.hire-form button:hover{
-    background:#22c55e;
+float:right;
+cursor:pointer;
+color:red;
+font-weight:bold;
 }
 
 /* FOOTER */
 .footer{
-    background:#111827;
-    text-align:center;
-    padding:20px;
-    border-top:1px solid #334155;
-    color:#9ca3af;
-    font-size:14px;
+text-align:center;
+padding:15px;
+background:#111827;
+border-top:1px solid #334155;
+color:#9ca3af;
+font-size:14px;
 }
-.footer strong{color:#38bdf8;}
+
+.footer strong{
+color:#38bdf8;
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <div class="header-left">
-        <img src="ric-logo.png" alt="RIC Logo">
-        <h1>Riphah International College - Muslim Town Campus</h1>
-    </div>
+<div class="header-left">
+<img src="ric-logo.png" class="logo" alt="RIC Logo">
+<h1>Riphah International College - Muslim Town</h1>
+</div>
 </div>
 
 <div class="app">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-    <h2>DevX Portal</h2>
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('add')">Add Freelancer</button>
+<h2>DevX Portal</h2>
+<button onclick="showSection('dashboard')">Dashboard</button>
+<button onclick="showSection('add')">Add Freelancer</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
+
 <div id="dashboard">
+
 <div class="topbar">
-    <input type="text" id="search" placeholder="Search freelancer...">
-    <select id="filter">
-        <option value="All">All</option>
-        <option value="Web">Web</option>
-        <option value="Design">Design</option>
-        <option value="Mobile">Mobile</option>
-    </select>
-    <button onclick="filterData()">Search</button>
+<input type="text" id="search" placeholder="Search freelancer">
+<select id="filter">
+<option value="All">All</option>
+<option value="Web">Web</option>
+<option value="Design">Design</option>
+<option value="Mobile">Mobile</option>
+</select>
+<button onclick="filterData()">Search</button>
 </div>
 
 <div class="cards" id="cardContainer"></div>
@@ -239,7 +227,7 @@ button{
 <h3>Add New Freelancer</h3><br>
 <input type="text" id="name" placeholder="Name"><br><br>
 <input type="text" id="skill" placeholder="Main Skill"><br><br>
-<input type="text" id="premium" placeholder="Premium Skills (comma separated)"><br><br>
+<input type="text" id="premium" placeholder="Premium Skills"><br><br>
 <input type="number" id="price" placeholder="Price (PKR)"><br><br>
 <select id="category">
 <option value="Web">Web</option>
@@ -252,7 +240,6 @@ button{
 </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal" id="profileModal">
 <div class="modal-content">
 <span class="close" onclick="closeModal()">X</span>
@@ -261,35 +248,22 @@ button{
 <p id="modalPremium"></p>
 <p id="modalCategory"></p>
 <p class="price" id="modalPrice"></p>
-<hr><br>
-<h4>Hire Freelancer</h4>
-<div class="hire-form">
-<input type="text" id="clientName" placeholder="Your Name"><br><br>
-<input type="email" id="clientEmail" placeholder="Your Email"><br><br>
-<textarea id="projectDetails" placeholder="Project Details"></textarea>
-<button onclick="submitHire()">Submit Request</button>
-</div>
 </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
 <p>Final Year Web Development Project</p>
-<p><strong>Developed By:</strong> Faraz Sheikh, Najiuallah, Moazzam</p>
-<p>© 2024 Riphah International College</p>
+<p><strong>Developed By:</strong> Faraz Sheikh & Team</p>
+<p>© 2026 RIC</p>
 </div>
 
 <script>
-let freelancers = JSON.parse(localStorage.getItem("freelancers")) || [
-{name:"Waseem Akram", skill:"Full Stack Developer", premium:"React, Node.js, MongoDB", category:"Web", price:120000},
-{name:"Mahnoor Islam", skill:"UI/UX Designer", premium:"Figma, Adobe XD, Branding", category:"Design", price:85000},
-{name:"Sheraz Abbas", skill:"Flutter Developer", premium:"Firebase, REST APIs", category:"Mobile", price:96000},
-{name:"Najiuallah", skill:"Backend Developer", premium:"Express.js, MySQL", category:"Web", price:108000},
-{name:"Rimsha Rana", skill:"Frontend Developer", premium:"Next.js, Tailwind", category:"Web", price:100800},
-{name:"Hamza Khan", skill:"Mobile App Expert", premium:"Flutter, Firebase", category:"Mobile", price:115200}
-];
 
-let selectedFreelancer=null;
+let freelancers = JSON.parse(localStorage.getItem("freelancers")) || [
+{name:"Waseem Akram", skill:"Full Stack Developer", premium:"React, Node", category:"Web", price:120000},
+{name:"Mahnoor Islam", skill:"UI/UX Designer", premium:"Figma", category:"Design", price:85000},
+{name:"Sheraz Abbas", skill:"Flutter Developer", premium:"Firebase", category:"Mobile", price:96000}
+];
 
 function saveData(){
 localStorage.setItem("freelancers",JSON.stringify(freelancers));
@@ -311,29 +285,17 @@ container.innerHTML+=`
 }
 
 function viewProfile(index){
-selectedFreelancer=freelancers[index];
-document.getElementById("modalName").innerText=selectedFreelancer.name;
-document.getElementById("modalSkill").innerText="Main Skill: "+selectedFreelancer.skill;
-document.getElementById("modalPremium").innerText="Premium Skills: "+selectedFreelancer.premium;
-document.getElementById("modalCategory").innerText="Category: "+selectedFreelancer.category;
-document.getElementById("modalPrice").innerText="Price: PKR "+selectedFreelancer.price.toLocaleString();
+let f=freelancers[index];
+document.getElementById("modalName").innerText=f.name;
+document.getElementById("modalSkill").innerText="Main Skill: "+f.skill;
+document.getElementById("modalPremium").innerText="Premium: "+f.premium;
+document.getElementById("modalCategory").innerText="Category: "+f.category;
+document.getElementById("modalPrice").innerText="Price: PKR "+f.price.toLocaleString();
 document.getElementById("profileModal").style.display="flex";
 }
 
 function closeModal(){
 document.getElementById("profileModal").style.display="none";
-}
-
-function submitHire(){
-let name=document.getElementById("clientName").value;
-let email=document.getElementById("clientEmail").value;
-let details=document.getElementById("projectDetails").value;
-if(name===""||email===""||details===""){
-alert("Please fill all fields");
-return;
-}
-alert("Hire Request Sent Successfully!");
-closeModal();
 }
 
 function addFreelancer(){
@@ -342,10 +304,12 @@ let skill=document.getElementById("skill").value;
 let premium=document.getElementById("premium").value;
 let price=document.getElementById("price").value;
 let category=document.getElementById("category").value;
+
 if(name===""||skill===""||premium===""||price===""){
 alert("Please fill all fields");
 return;
 }
+
 freelancers.push({name,skill,premium,category,price:Number(price)});
 saveData();
 renderData(freelancers);
@@ -354,24 +318,5 @@ alert("Freelancer Added!");
 
 function filterData(){
 let search=document.getElementById("search").value.toLowerCase();
-let filter=document.getElementById("filter").value;
-let filtered=freelancers.filter(f=>
-f.name.toLowerCase().includes(search)&&
-(filter==="All"||f.category===filter)
-);
-renderData(filtered);
-}
-
-function showSection(section){
-document.getElementById("dashboard").style.display="none";
-document.getElementById("add").style.display="none";
-document.getElementById(section).style.display="block";
-}
-
-renderData(freelancers);
-</script>
-
-</body>
-
-</html>
+let filter=document.getElementByI
 
