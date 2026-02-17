@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DevX - RIC Freelancer Portal</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body{background:#0f172a;color:white;}
@@ -17,18 +18,24 @@ align-items:center;
 justify-content:space-between;
 border-bottom:2px solid #2563eb;
 }
+
 .header-left{display:flex;align-items:center;gap:15px;}
+
 .logo{height:55px;border-radius:8px;border:2px solid #38bdf8;}
+
 .header h1{font-size:18px;color:#38bdf8;}
 
 /* LAYOUT */
 .app{display:flex;min-height:90vh;}
+
 .sidebar{
 width:230px;
 background:#111827;
 padding:25px 20px;
 }
+
 .sidebar h2{margin-bottom:25px;color:#38bdf8;}
+
 .sidebar button{
 width:100%;
 padding:12px;
@@ -40,11 +47,14 @@ border-radius:8px;
 cursor:pointer;
 transition:0.3s;
 }
+
 .sidebar button:hover{background:#2563eb;}
+
 .main{flex:1;padding:30px;}
 
 /* SEARCH */
 .topbar{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap;}
+
 input,select,textarea{
 padding:10px;
 background:#1f2937;
@@ -53,6 +63,7 @@ color:white;
 border-radius:6px;
 width:100%;
 }
+
 button{cursor:pointer;}
 
 /* CARDS */
@@ -61,51 +72,55 @@ display:grid;
 grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
 gap:20px;
 }
+
 .card{
 background:#1e293b;
 padding:20px;
 border-radius:10px;
 border:1px solid #334155;
 transition:0.3s;
-cursor:pointer;
 }
+
 .card:hover{transform:translateY(-5px);border-color:#38bdf8;}
+
 .card h3{color:#38bdf8;margin-bottom:6px;}
+
 .price{color:#22c55e;font-weight:bold;margin-top:8px;}
 
-/* HOVER MODAL */
-.modal{
-position:absolute;
-background:#1f2937;
-padding:20px;
-border-radius:12px;
-border:1px solid #38bdf8;
-box-shadow:0 8px 20px rgba(0,0,0,0.6);
-width:300px;
-opacity:0;
-pointer-events:none;
-transition:opacity 0.25s ease, transform 0.25s ease;
-z-index:1000;
-}
-.modal.show{
-opacity:1;
-pointer-events:auto;
-transform:translateY(-5px);
-}
-.modal h3{color:#38bdf8;margin-bottom:5px;}
-.modal p{margin:2px 0;}
-.modal .price{color:#22c55e;font-weight:bold;}
-
-/* HIRE BUTTON */
-.hire-btn{
-background:#16a34a!important;
+.card button{
 margin-top:10px;
-width:100%;
 padding:8px;
+background:#2563eb;
 border:none;
 border-radius:6px;
 color:white;
-cursor:pointer;
+width:100%;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1f2937;
+padding:25px;
+border-radius:10px;
+width:350px;
+max-width:95%;
+}
+
+.close{float:right;cursor:pointer;color:red;font-weight:bold;}
+
+.hire-btn{
+background:#16a34a!important;
+margin-top:8px;
 }
 
 /* FOOTER */
@@ -117,6 +132,7 @@ border-top:1px solid #334155;
 color:#9ca3af;
 font-size:14px;
 }
+
 .footer strong{color:#38bdf8;}
 
 /* RESPONSIVE */
@@ -129,12 +145,14 @@ font-size:14px;
 .header-left{flex-direction:column;}
 .topbar{flex-direction:column;}
 }
+
 @media (max-width:576px){
 .cards{grid-template-columns:1fr;}
 .sidebar button{flex:1 1 100%;}
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -145,6 +163,7 @@ font-size:14px;
 </div>
 
 <div class="app">
+
 <div class="sidebar">
 <h2>DevX Portal</h2>
 <button onclick="showSection('dashboard')">Dashboard</button>
@@ -152,7 +171,9 @@ font-size:14px;
 </div>
 
 <div class="main">
+
 <div id="dashboard">
+
 <div class="topbar">
 <input type="text" id="search" placeholder="Search freelancer">
 <select id="filter">
@@ -163,6 +184,7 @@ font-size:14px;
 </select>
 <button onclick="filterData()">Search</button>
 </div>
+
 <div class="cards" id="cardContainer"></div>
 </div>
 
@@ -179,22 +201,26 @@ font-size:14px;
 </select><br><br>
 <button onclick="addFreelancer()">Add Freelancer</button>
 </div>
+
 </div>
 </div>
 
-<!-- HOVER MODAL -->
-<div class="modal" id="hoverModal">
+<!-- MODAL -->
+<div class="modal" id="profileModal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">X</span>
 <h3 id="modalName"></h3>
 <p id="modalSkill"></p>
 <p id="modalPremium"></p>
 <p id="modalCategory"></p>
 <p class="price" id="modalPrice"></p>
-<hr>
+<hr><br>
 <h4>Hire Freelancer</h4>
 <input type="text" id="clientName" placeholder="Your Name"><br><br>
 <input type="email" id="clientEmail" placeholder="Your Email"><br><br>
 <textarea id="projectDetails" placeholder="Project Details"></textarea><br><br>
 <button class="hire-btn" onclick="submitHire()">Hire Now</button>
+</div>
 </div>
 
 <div class="footer">
@@ -204,7 +230,8 @@ font-size:14px;
 </div>
 
 <script>
-let freelancers=[
+
+let freelancers = [
 {name:"Waseem Akram",skill:"Full Stack Developer",premium:"React, Node",category:"Web",price:120000},
 {name:"Mahnoor Islam",skill:"UI/UX Designer",premium:"Figma, Branding",category:"Design",price:85000},
 {name:"Sheraz Abbas",skill:"Flutter Developer",premium:"Firebase",category:"Mobile",price:96000},
@@ -227,72 +254,77 @@ let freelancers=[
 {name:"Mehak Noor",skill:"Creative Designer",premium:"Branding",category:"Design",price:87000}
 ];
 
-let hoverModal=document.getElementById("hoverModal");
-let modalTimeout;
+let selectedFreelancer=null;
 
 function renderData(data){
-    let container=document.getElementById("cardContainer");
-    container.innerHTML="";
-    data.forEach((f)=>{
-        let card=document.createElement("div");
-        card.className="card";
-        card.innerHTML=`<h3>${f.name}</h3>
-        <p>${f.skill}</p>
-        <small>${f.category}</small>
-        <p class="price">PKR ${f.price.toLocaleString()}</p>`;
+let container=document.getElementById("cardContainer");
+container.innerHTML="";
+data.forEach((f,i)=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${f.name}</h3>
+<p>${f.skill}</p>
+<small>${f.category}</small>
+<p class="price">PKR ${f.price.toLocaleString()}</p>
+<button onclick="viewProfile(${i})">View Profile</button>
+</div>`;
+});
+}
 
-        // Hover modal
-        card.addEventListener("mouseenter",(e)=>{
-            clearTimeout(modalTimeout);
-            hoverModal.style.left=(e.pageX+15)+"px";
-            hoverModal.style.top=(e.pageY+15)+"px";
-            document.getElementById("modalName").innerText=f.name;
-            document.getElementById("modalSkill").innerText="Main Skill: "+f.skill;
-            document.getElementById("modalPremium").innerText="Premium: "+f.premium;
-            document.getElementById("modalCategory").innerText="Category: "+f.category;
-            document.getElementById("modalPrice").innerText="Price: PKR "+f.price.toLocaleString();
-            hoverModal.classList.add("show");
-        });
+function viewProfile(index){
+selectedFreelancer=freelancers[index];
+document.getElementById("modalName").innerText=selectedFreelancer.name;
+document.getElementById("modalSkill").innerText="Main Skill: "+selectedFreelancer.skill;
+document.getElementById("modalPremium").innerText="Premium: "+selectedFreelancer.premium;
+document.getElementById("modalCategory").innerText="Category: "+selectedFreelancer.category;
+document.getElementById("modalPrice").innerText="Price: PKR "+selectedFreelancer.price.toLocaleString();
+document.getElementById("profileModal").style.display="flex";
+}
 
-        card.addEventListener("mousemove",(e)=>{
-            hoverModal.style.left=(e.pageX+15)+"px";
-            hoverModal.style.top=(e.pageY+15)+"px";
-        });
-
-        card.addEventListener("mouseleave",()=>{
-            modalTimeout=setTimeout(()=>{hoverModal.classList.remove("show");},200);
-        });
-
-        container.appendChild(card);
-    });
+function closeModal(){
+document.getElementById("profileModal").style.display="none";
 }
 
 function submitHire(){
-    let name=document.getElementById("clientName").value;
-    let email=document.getElementById("clientEmail").value;
-    let details=document.getElementById("projectDetails").value;
-    if(name===""||email===""||details===""){ alert("Please fill all fields"); return; }
-    alert("Hire request sent successfully!");
-    hoverModal.classList.remove("show");
+let name=document.getElementById("clientName").value;
+let email=document.getElementById("clientEmail").value;
+let details=document.getElementById("projectDetails").value;
+
+if(name===""||email===""||details===""){
+alert("Please fill all fields");
+return;
 }
 
-function addFreelancer(){ alert("Demo — new freelancers won't save permanently."); }
+alert("Hire request sent successfully!");
+closeModal();
+}
+
+function addFreelancer(){
+alert("Demo version — new freelancers won't save permanently.");
+}
 
 function filterData(){
-    let search=document.getElementById("search").value.toLowerCase();
-    let filter=document.getElementById("filter").value;
-    let filtered=freelancers.filter(f=>f.name.toLowerCase().includes(search) && (filter==="All"||f.category===filter));
-    renderData(filtered);
+let search=document.getElementById("search").value.toLowerCase();
+let filter=document.getElementById("filter").value;
+
+let filtered=freelancers.filter(f=>
+f.name.toLowerCase().includes(search)&&
+(filter==="All"||f.category===filter)
+);
+
+renderData(filtered);
 }
 
 function showSection(section){
-    document.getElementById("dashboard").style.display="none";
-    document.getElementById("add").style.display="none";
-    document.getElementById(section).style.display="block";
+document.getElementById("dashboard").style.display="none";
+document.getElementById("add").style.display="none";
+document.getElementById(section).style.display="block";
 }
 
 renderData(freelancers);
+
 </script>
 
 </body>
 </html>
+
