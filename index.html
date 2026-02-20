@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DevX - RIC Freelancer Portal</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body{background:#0f172a;color:white;}
@@ -15,33 +14,51 @@ body{background:#0f172a;color:white;}
 .app{display:flex;min-height:90vh;}
 .sidebar{width:230px;background:#111827;padding:25px 20px;}
 .sidebar h2{margin-bottom:25px;color:#38bdf8;}
-.sidebar button{width:100%;padding:12px;margin-bottom:10px;background:#1f2937;border:none;color:white;border-radius:8px;cursor:pointer;}
+.sidebar button{width:100%;padding:12px;margin-bottom:10px;background:#1f2937;border:none;color:white;border-radius:8px;cursor:pointer;transition:0.3s;}
 .sidebar button:hover{background:#2563eb;}
 .main{flex:1;padding:30px;}
 .topbar{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap;}
 input,select,textarea{padding:10px;background:#1f2937;border:1px solid #374151;color:white;border-radius:6px;width:100%;}
+button{cursor:pointer;}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
-.card{background:#1e293b;padding:20px;border-radius:10px;border:1px solid #334155;}
+.card{background:#1e293b;padding:20px;border-radius:10px;border:1px solid #334155;transition:0.3s;}
+.card:hover{transform:translateY(-5px);border-color:#38bdf8;}
 .card h3{color:#38bdf8;margin-bottom:6px;}
 .price{color:#22c55e;font-weight:bold;margin-top:8px;}
 .card button{margin-top:10px;padding:8px;background:#2563eb;border:none;border-radius:6px;color:white;width:100%;}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;}
-.modal-content{background:#1f2937;padding:25px;border-radius:10px;width:350px;max-width:95%;position:relative;}
-.close{position:absolute;top:10px;right:15px;cursor:pointer;color:red;font-weight:bold;font-size:18px;}
+.modal-content{background:#1f2937;padding:25px;border-radius:10px;width:350px;max-width:95%;}
+.close{float:right;cursor:pointer;color:red;font-weight:bold;}
 .hire-btn{background:#16a34a!important;margin-top:8px;}
 .footer{text-align:center;padding:15px;background:#111827;border-top:1px solid #334155;color:#9ca3af;font-size:14px;}
+.footer strong{color:#38bdf8;}
+@media (max-width:992px){
+.app{flex-direction:column;}
+.sidebar{width:100%;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.sidebar h2{width:100%;text-align:center;}
+.sidebar button{flex:1 1 45%;}
+.header{flex-direction:column;text-align:center;gap:10px;}
+.header-left{flex-direction:column;}
+.topbar{flex-direction:column;}
+}
+@media (max-width:576px){
+.cards{grid-template-columns:1fr;}
+.sidebar button{flex:1 1 100%;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<div class="header-left">
-<h1>Riphah International College - Muslim Town</h1>
-</div>
+  <div class="header-left">
+    <img src="ric-logo.png" class="logo" alt="RIC Logo">
+    <h1>Riphah International College - Muslim Town</h1>
+  </div>
 </div>
 
 <div class="app">
+
 <div class="sidebar">
 <h2>DevX Portal</h2>
 <button onclick="showSection('dashboard')">Dashboard</button>
@@ -91,6 +108,8 @@ input,select,textarea{padding:10px;background:#1f2937;border:1px solid #374151;c
 <p id="modalCategory"></p>
 <p class="price" id="modalPrice"></p>
 <p id="modalHourly"></p>
+<p id="modalOrders"></p>
+<p id="modalEarnings"></p>
 <hr><br>
 <h4>Hire Freelancer</h4>
 <input type="text" id="clientName" placeholder="Your Name"><br><br>
@@ -103,156 +122,64 @@ input,select,textarea{padding:10px;background:#1f2937;border:1px solid #374151;c
 <div class="footer">
 <p>Final Year Web Development Project</p>
 <p><strong>Developed By:</strong> Faraz Sheikh & Team</p>
+<p>© 2026 RIC</p>
 </div>
 
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDTTENkaidgnn1bqSU1BoprJdhhwk7p-DE",
-  authDomain: "ricportal-4197d.firebaseapp.com",
-  projectId: "ricportal-4197d",
-  storageBucket: "ricportal-4197d.appspot.com", // corrected
-  messagingSenderId: "194341472462",
-  appId: "1:194341472462:web:e9b935c701aab08215289f"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-let freelancers = [];
-let selectedFreelancer = null;
-
-const defaultFreelancers = [
-{name:"Ali Raza",skill:"Full Stack Developer",premium:"React, Node",category:"Web",price:80000,hourly:700},
-{name:"Mahnoor Islam",skill:"UI/UX Designer",premium:"Figma, Branding",category:"Design",price:60000,hourly:600},
-{name:"Hamza Khan",skill:"React Developer",premium:"Next.js",category:"Web",price:78000,hourly:720},
-{name:"Sana Noor",skill:"Flutter Developer",premium:"Firebase",category:"Mobile",price:72000,hourly:680},
-{name:"Hina Malik",skill:"Graphic Designer",premium:"Photoshop",category:"Design",price:50000,hourly:550}
+<script>
+let freelancers = [
+{name:"Waseem Akram",skill:"Full Stack Developer",premium:"React, Node",category:"Web",price:80000,hourly:700,orders:25,earnings:180000},
+{name:"Mahnoor Islam",skill:"UI/UX Designer",premium:"Figma, Branding",category:"Design",price:60000,hourly:600,orders:18,earnings:120000},
+{name:"Sheraz Abbas",skill:"Flutter Developer",premium:"Firebase",category:"Mobile",price:70000,hourly:650,orders:20,earnings:130000},
+{name:"Ali Raza",skill:"Backend Developer",premium:"Express, MongoDB",category:"Web",price:75000,hourly:700,orders:22,earnings:150000},
+{name:"Hina Malik",skill:"Graphic Designer",premium:"Photoshop",category:"Design",price:50000,hourly:550,orders:15,earnings:95000},
+{name:"Hamza Khan",skill:"React Developer",premium:"Next.js",category:"Web",price:78000,hourly:720,orders:23,earnings:160000},
+{name:"Sana Noor",skill:"App Developer",premium:"Flutter, APIs",category:"Mobile",price:72000,hourly:680,orders:19,earnings:135000},
+{name:"Usman Tariq",skill:"WordPress Expert",premium:"SEO",category:"Web",price:45000,hourly:500,orders:12,earnings:75000},
+{name:"Areeba Fatima",skill:"Frontend Dev",premium:"Tailwind",category:"Web",price:70000,hourly:650,orders:21,earnings:140000},
+{name:"Bilal Ahmed",skill:"UI Designer",premium:"Adobe XD",category:"Design",price:62000,hourly:600,orders:16,earnings:105000},
+{name:"Zain Ali",skill:"Android Dev",premium:"Kotlin",category:"Mobile",price:74000,hourly:700,orders:20,earnings:130000},
+{name:"Nimra Javed",skill:"Full Stack",premium:"MERN",category:"Web",price:85000,hourly:800,orders:28,earnings:190000}
 ];
 
-async function seedIfEmpty(){
-  const snapshot = await getDocs(collection(db,"freelancers"));
-  if(snapshot.empty){
-    for(let f of defaultFreelancers){
-      await addDoc(collection(db,"freelancers"),f);
-    }
-  }
-}
-
-async function loadFreelancers(){
-  const querySnapshot = await getDocs(collection(db,"freelancers"));
-  freelancers=[];
-  querySnapshot.forEach((doc)=>{
-    freelancers.push({...doc.data(), id: doc.id}); // add id for future use if needed
-  });
-  renderData(freelancers);
-}
-
 function renderData(data){
-  let container=document.getElementById("cardContainer");
-  container.innerHTML="";
-  data.forEach((f,i)=>{
-    container.innerHTML+=`
-    <div class="card">
-      <h3>${f.name}</h3>
-      <p>${f.skill}</p>
-      <small>${f.category}</small>
-      <p class="price">PKR ${f.price} | Hourly: PKR ${f.hourly}</p>
-      <button onclick="viewProfile(${i})">View Profile</button>
-    </div>`;
-  });
+let container=document.getElementById("cardContainer");
+container.innerHTML="";
+data.forEach((f,i)=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${f.name}</h3>
+<p>${f.skill}</p>
+<small>${f.category}</small>
+<p class="price">PKR ${f.price.toLocaleString()} | ₹${f.hourly.toLocaleString()}/hr</p>
+<button onclick="viewProfile(${i})">View Profile</button>
+</div>`;
+});
 }
 
-window.viewProfile=function(index){
-  selectedFreelancer=freelancers[index];
-  let f=selectedFreelancer;
-  document.getElementById("modalName").innerText=f.name;
-  document.getElementById("modalSkill").innerText="Skill: "+f.skill;
-  document.getElementById("modalPremium").innerText="Premium: "+f.premium;
-  document.getElementById("modalCategory").innerText="Category: "+f.category;
-  document.getElementById("modalPrice").innerText="Project Price: PKR "+f.price;
-  document.getElementById("modalHourly").innerText="Hourly Rate: PKR "+f.hourly;
-  document.getElementById("profileModal").style.display="flex";
+function viewProfile(index){
+let f=freelancers[index];
+document.getElementById("modalName").innerText=f.name;
+document.getElementById("modalSkill").innerText="Skill: "+f.skill;
+document.getElementById("modalPremium").innerText="Premium: "+f.premium;
+document.getElementById("modalCategory").innerText="Category: "+f.category;
+document.getElementById("modalPrice").innerText="Project Price: PKR "+f.price.toLocaleString();
+document.getElementById("modalHourly").innerText="Hourly Rate: PKR "+f.hourly.toLocaleString();
+document.getElementById("modalOrders").innerText="Completed Orders: "+f.orders;
+document.getElementById("modalEarnings").innerText="Total Earnings: PKR "+f.earnings.toLocaleString();
+document.getElementById("profileModal").style.display="flex";
 }
 
-window.closeModal=function(){
-  document.getElementById("profileModal").style.display="none";
+function closeModal(){document.getElementById("profileModal").style.display="none";}
+function submitHire(){alert("Hire request sent!");closeModal();}
+function addFreelancer(){alert("Demo — freelancers not saved.");}
+function filterData(){
+let search=document.getElementById("search").value.toLowerCase();
+let filter=document.getElementById("filter").value;
+let filtered=freelancers.filter(f=>f.name.toLowerCase().includes(search)&&(filter==="All"||f.category===filter));
+renderData(filtered);
 }
-
-window.addFreelancer=async function(){
-  const name=document.getElementById("name").value.trim();
-  const skill=document.getElementById("skill").value.trim();
-  const premium=document.getElementById("premium").value.trim();
-  const price=document.getElementById("price").value;
-  const hourly=document.getElementById("hourly").value;
-  const category=document.getElementById("category").value;
-
-  if(!name || !skill || !premium || !price || !hourly){
-    alert("Please fill all fields!");
-    return;
-  }
-
-  await addDoc(collection(db,"freelancers"),{
-    name, skill, premium,
-    price:Number(price),
-    hourly:Number(hourly),
-    category
-  });
-
-  alert("Freelancer Added ✅");
-  document.getElementById("name").value="";
-  document.getElementById("skill").value="";
-  document.getElementById("premium").value="";
-  document.getElementById("price").value="";
-  document.getElementById("hourly").value="";
-  loadFreelancers();
-}
-
-window.submitHire=async function(){
-  const clientName=document.getElementById("clientName").value.trim();
-  const clientEmail=document.getElementById("clientEmail").value.trim();
-  const projectDetails=document.getElementById("projectDetails").value.trim();
-
-  if(!clientName || !clientEmail || !projectDetails){
-    alert("Please fill all fields!");
-    return;
-  }
-
-  await addDoc(collection(db,"hireRequests"),{
-    freelancer:selectedFreelancer.name,
-    clientName,
-    clientEmail,
-    projectDetails,
-    createdAt:new Date()
-  });
-
-  alert("Hire Request Sent ✅");
-  closeModal();
-}
-
-window.filterData=function(){
-  let search=document.getElementById("search").value.toLowerCase();
-  let filter=document.getElementById("filter").value;
-  let filtered=freelancers.filter(f=>
-    f.name.toLowerCase().includes(search) &&
-    (filter==="All"||f.category===filter)
-  );
-  renderData(filtered);
-}
-
-window.showSection=function(s){
-  document.getElementById("dashboard").style.display="none";
-  document.getElementById("add").style.display="none";
-  document.getElementById(s).style.display="block";
-}
-
-// Initialize
-seedIfEmpty().then(loadFreelancers);
-
+function showSection(s){document.getElementById("dashboard").style.display="none";document.getElementById("add").style.display="none";document.getElementById(s).style.display="block";}
+renderData(freelancers);
 </script>
 
 </body>
